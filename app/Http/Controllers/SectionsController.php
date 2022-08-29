@@ -35,7 +35,7 @@ class SectionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

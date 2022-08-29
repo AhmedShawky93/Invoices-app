@@ -31,14 +31,17 @@
 						<h6 class="modal-title">اضافة قسم</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
-						<div class="form-group">
-							<label for="my-input">اسم القسم</label>
-							<input id="section_name" class="form-control" type="text" name="section">
-						</div>
-						<div class="form-group">
-							<label for="my-input">ملاحظات</label>
-							<textarea id="description" class="form-control" type="text" name="description">
-						</div>
+						<form action="{{ route('Sections.store') }}"  method="post">
+							{{csrf_field()}}
+						  <div class="mb-3">
+							<label for="section" class="form-label">اسم القسم </label>
+							<input type="email" class="form-control" id="section">
+						  </div>
+						  <div class="mb-3">
+							<label for="desc" class="form-label">ملاحظات</label>
+							<textarea class="form-control" id="desc" rows="3"></textarea>
+						  </div>
+						</form>
 					</div>
 					<div class="modal-footer">
 						<button class="btn ripple btn-primary" type="button">حفظ</button>
