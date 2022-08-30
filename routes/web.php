@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\SectionsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/invoices', [App\Http\Controllers\InvoicesController::class, 'index']);
 
-Route::get('/sections', [App\Http\Controllers\SectionsController::class, 'index']);
+Route::resource('/sections', SectionsController::class);
 
 Route::get('/{page}', [AdminController::class, 'index']);

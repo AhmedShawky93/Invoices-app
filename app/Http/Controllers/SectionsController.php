@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\sections;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SectionsController extends Controller
 {
@@ -14,7 +15,8 @@ class SectionsController extends Controller
      */
     public function index()
     {
-        return view('Sections.sections');
+        $data = sections::all();
+        return view('sections.sections', compact('data'));
     }
 
     /**
@@ -35,7 +37,17 @@ class SectionsController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        $validatedData = $request->validate([
+            'section_name' => 'required|unique:posts|max:255',
+            'description' => 'required',
+        ]);
+        sections::create([
+            'section_name'=> $request->section_name,
+            'description' => $request -> description,
+            'created_by' => (Auth::user()->name),
+        ]);
+        session()->flash('Add','تم اضافة القسم بنجاح');
+        return redirect('/sections');      
     }
 
     /**
