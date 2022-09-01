@@ -38,8 +38,13 @@ class SectionsController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'section_name' => 'required|unique:posts|max:255',
+            'section_name' => 'required|unique:sections|max:255',
             'description' => 'required',
+        ],
+        [
+            'section_name.required' =>'برجاء ادخال اسم القسم',
+            'section_name.unique' =>'اسم القسم مسجل مسبقا',
+            'description.required' =>'برجاء ادخال الشرح',
         ]);
         sections::create([
             'section_name'=> $request->section_name,
@@ -81,7 +86,24 @@ class SectionsController extends Controller
      */
     public function update(Request $request, sections $sections)
     {
-        //
+        $id = $request->id;
+        $this->validate($request, [
+
+            'section_name' => 'required|max:255|unique:sections,section_name,'.$id,
+            'description' => 'required',
+        ],[
+
+            'section_name.required' =>'يرجي ادخال اسم القسم',
+            'section_name.unique' =>'اسم القسم مسجل مسبقا',
+            'description.required' =>'يرجي ادخال البيان',
+
+        ]);
+        $sections = sections::find($id);
+        $sections->update([
+            'section_name' => $request->section_name,
+            'description' => $request->description,
+        ]);
+        return redirect('/sections');
     }
 
     /**
@@ -90,8 +112,11 @@ class SectionsController extends Controller
      * @param  \App\Models\sections  $sections
      * @return \Illuminate\Http\Response
      */
-    public function destroy(sections $sections)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        sections::find($id)->delete();
+        return redirect('/sections');
+        
     }
 }
