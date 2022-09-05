@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\SectionsController;
+use App\Http\Controllers\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,8 +26,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/invoices', [App\Http\Controllers\InvoicesController::class, 'index']);
+Route::get('invoices', [App\Http\Controllers\InvoicesController::class, 'index']);
 
-Route::resource('/sections', SectionsController::class);
+Route::resource('sections', SectionsController::class);
+
+Route::resource('products', ProductsController::class);
 
 Route::get('/{page}', [AdminController::class, 'index']);

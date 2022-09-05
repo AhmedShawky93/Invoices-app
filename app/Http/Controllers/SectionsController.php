@@ -84,7 +84,7 @@ class SectionsController extends Controller
      * @param  \App\Models\sections  $sections
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, sections $sections)
+    public function update(Request $request)
     {
         $id = $request->id;
         $this->validate($request, [
@@ -103,6 +103,7 @@ class SectionsController extends Controller
             'section_name' => $request->section_name,
             'description' => $request->description,
         ]);
+        session()->flash('edit','تم تعديل القسم بنجاح');
         return redirect('/sections');
     }
 
@@ -116,6 +117,7 @@ class SectionsController extends Controller
     {
         $id = $request->id;
         sections::find($id)->delete();
+        session()->flash('delete','تم حذف القسم بنجاح');
         return redirect('/sections');
         
     }

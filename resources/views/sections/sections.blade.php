@@ -55,6 +55,22 @@
                     </button>
                 </div>
             @endif
+            @if (session()->has('edit'))
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    <strong>{{ session()->get('edit') }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            @if (session()->has('delete'))
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    <strong>{{ session()->get('delete') }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
@@ -234,5 +250,15 @@
             modal.find('.modal-body #section_name').val(section_name);
             modal.find('.modal-body #description').val(description);
         })
+
+        $('#modaldemo9').on('show.bs.modal', function(e) {
+            var button = $(e.relatedTarget)
+            var id = button.data('id')
+            var section_name = button.data('section_name')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #section_name').val(section_name);
+        })
+        
     </script>
 @endsection
