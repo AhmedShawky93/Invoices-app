@@ -16,7 +16,9 @@ class ProductsController extends Controller
     public function index()
     {
         $sections = sections::all();
-        return view('products.products', compact('sections'));
+        $products = products::with('section')->latest()->get();
+
+        return view('products.products', compact('sections', 'products'));
     }
     /**
      * Show the form for creating a new resource.
@@ -49,11 +51,11 @@ class ProductsController extends Controller
             'section_id.required' =>'برجاء اختيار القسم',
         ]);
         products::create([
-            'product_name'=> $request->product_name,
+            'Product_name'=> $request->product_name,
             'section_id'=> $request->section_id,
             'description' => $request ->description,
         ]);
-        session()->flash('Add','تم اضافة القسم بنجاح');
+        session()->flash('Add', 'تم اضافة المنتج بنجاح');
         return redirect('/products');
     }
 
@@ -86,9 +88,30 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, products $products)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+
+        $this->validate($request, [
+            'product_name' => 'required|max:255|unique:products,Product_name,' . $id,
+            'description' => 'required',
+            'section_id' => 'required|exists:sections,id',
+        ], [
+            'product_name.required' => 'برجاء ادخال اسم المنتج',
+            'product_name.unique' => 'اسم المنتج مسجل مسبقا',
+            'description.required' => 'برجاء ادخال الشرح',
+            'section_id.required' => 'برجاء اختيار القسم',
+        ]);
+
+        $product = products::findOrFail($id);
+        $product->update([
+            'Product_name' => $request->product_name,
+            'description' => $request->description,
+            'section_id' => $request->section_id,
+        ]);
+
+        session()->flash('edit', 'تم تعديل المنتج بنجاح');
+        return redirect('/products');
     }
 
     /**
@@ -97,8 +120,10 @@ class ProductsController extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(products $products)
+    public function destroy(Request $request)
     {
-        //
+        products::findOrFail($request->id)->delete();
+        session()->flash('delete', 'تم حذف المنتج بنجاح');
+        return redirect('/products');
     }
 }

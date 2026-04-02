@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class products extends Model
 {
-    protected $guarded=[];
+    protected $fillable = [
+        'Product_name',
+        'description',
+        'section_id',
+    ];
+
+    public function section()
+    {
+        return $this->belongsTo(sections::class, 'section_id');
+    }
 }
