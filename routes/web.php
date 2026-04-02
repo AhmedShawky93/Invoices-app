@@ -29,7 +29,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('invoices', [App\Http\Controllers\InvoicesController::class, 'index']);
 
 Route::resource('sections', SectionsController::class);
+Route::patch('sections/update', [SectionsController::class, 'update']);
+Route::delete('sections/destroy', [SectionsController::class, 'destroy']);
 
 Route::resource('products', ProductsController::class);
+Route::patch('products/update', [ProductsController::class, 'update']);
+Route::delete('products/destroy', [ProductsController::class, 'destroy']);
 
 Route::get('/{page}', [AdminController::class, 'index']);
